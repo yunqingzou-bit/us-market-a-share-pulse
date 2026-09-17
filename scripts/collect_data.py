@@ -4,6 +4,7 @@ import time
 import urllib.parse
 import urllib.request
 from datetime import datetime, timezone
+from pathlib import Path
 
 INDEXES = ['^GSPC', '^NDX', '^DJI', '^VIX']
 SECTORS = ['XLC', 'XLK', 'XLY', 'XLI', 'XLV', 'XLE', 'XLF']
@@ -44,6 +45,7 @@ payload = {
     'sectors': collect(SECTORS),
     'stocks': collect(STOCKS),
 }
+Path('public/data').mkdir(parents=True, exist_ok=True)
 with open('public/data/latest.json', 'w', encoding='utf-8') as handle:
     json.dump(payload, handle, ensure_ascii=False, separators=(',', ':'))
 print(json.dumps({'indexes': len(payload['indexes']), 'sectors': len(payload['sectors']), 'stocks': len(payload['stocks']), 'generatedAt': payload['meta']['generatedAt']}))
